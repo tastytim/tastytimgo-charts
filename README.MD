@@ -1,4 +1,4 @@
-## Native solution for charts.
+## Native solution for charts GOLANG.
 ### At the moment there is only a solution for bullet graphics.
 
 There are many solutions, but if you need to create a PDF and put graphics there, you will encounter difficulties.

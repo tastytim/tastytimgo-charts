@@ -11,9 +11,9 @@ import (
 )
 
 var (
-	red   = color.RGBA{255, 16, 12, 255}
-	green = color.RGBA{1, 251, 176, 255}
-	blue  = color.RGBA{80, 116, 255, 255}
+	Red   = color.RGBA{255, 16, 12, 255}
+	Green = color.RGBA{1, 251, 176, 255}
+	Blue  = color.RGBA{80, 116, 255, 255}
 )
 
 type BulletChart struct {
@@ -26,32 +26,32 @@ type BulletChart struct {
 	BackGroundColor color.RGBA //color image
 }
 
+type Band struct {
+	XStart  int
+	XEnd    int
+	YTop    int
+	YBottom int
+	Color   color.RGBA
+}
+type BaseBand struct {
+	YTop    int
+	YBottom int
+	Color   color.RGBA
+}
+
 // Create new Chart
 func NewBulletChart(width int, height int, xMax int, xMin int, step int, bColor color.RGBA) *BulletChart {
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
-
-	return &BulletChart{Image: img, XMax: xMax, XMin: xMin, Step: step, BackGroundColor: bColor}
+	fillRect(img, image.Rect(0, 0, width, height), bColor)
+	return &BulletChart{Image: img, Height: height, Width: width, XMax: xMax, XMin: xMin, Step: step, BackGroundColor: bColor}
 }
 
-type Band struct {
-	FromXStart  int
-	FromXEnd    int
-	FromYTop    int
-	FromYBottom int
-	Color       color.RGBA
-}
-type BaseBand struct {
-	FromYTop    int
-	FromYBottom int
-	Color       color.RGBA
+func (b *BulletChart) AddBand(band Band) {
+	fillRect(b.Image, image.Rect(band.XStart*b.Width/b.XMax, band.YTop, band.XEnd*b.Width/b.XMax, b.Height-band.YTop), band.Color)
 }
 
-func (b *BulletChart) AddBand(band *Band) {
-	fillRect(b.Image, image.Rect(band.FromXStart*b.Width/b.XMax, band.FromYBottom, band.FromXEnd*b.Width/b.XMax, b.Height-band.FromYBottom), band.Color)
-}
-
-func (b *BulletChart) AddBaseBand(band *BaseBand) {
-	fillRect(b.Image, image.Rect(0, band.FromYBottom, b.Width, b.Height-band.FromYBottom), band.Color)
+func (b *BulletChart) AddBaseBand(band BaseBand) {
+	fillRect(b.Image, image.Rect(0, band.YBottom, b.Width, b.Height-band.YTop), band.Color)
 }
 
 func (b *BulletChart) AddLabels() {

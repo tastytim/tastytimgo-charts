@@ -14,6 +14,7 @@ var (
 	Red   = color.RGBA{255, 16, 12, 255}
 	Green = color.RGBA{1, 251, 176, 255}
 	Blue  = color.RGBA{80, 116, 255, 255}
+	White  = color.RGBA{255, 255, 255, 1}
 )
 
 type BulletChart struct {
